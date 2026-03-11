@@ -7,6 +7,9 @@ import {
 } from '@shopify/hydrogen';
 import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
+import logoImage from '~/assets/logo/logo.png';
+import {Menu, Search, ShoppingCart, User} from 'lucide-react';
+import {Button} from '~/components/ui/button';
 
 interface HeaderProps {
   header: HeaderQuery;
@@ -17,6 +20,10 @@ interface HeaderProps {
 
 type Viewport = 'desktop' | 'mobile';
 
+// Consistent icon styling
+const ICON_CLASSES = 'h-5 w-5';
+const ICON_STROKE_WIDTH = 2;
+
 export function Header({
   header,
   isLoggedIn,
@@ -26,8 +33,15 @@ export function Header({
   const {shop, menu} = header;
   return (
     <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
+      {/* Mobile menu toggle - far left on mobile */}
+      <HeaderMenuMobileToggle />
+
+      <NavLink prefetch="intent" to="/" end>
+        <img
+          src={logoImage}
+          alt={shop.name}
+          className="h-16 w-auto rounded-none bg-transparent"
+        />
       </NavLink>
       <HeaderMenu
         menu={menu}
@@ -101,38 +115,84 @@ function HeaderCtas({
 }: Pick<HeaderProps, 'isLoggedIn' | 'cart'>) {
   return (
     <nav className="header-ctas" role="navigation">
-      <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        <Suspense fallback="Sign in">
-          <Await resolve={isLoggedIn} errorElement="Sign in">
-            {(isLoggedIn) => (isLoggedIn ? 'Account' : 'Sign in')}
-          </Await>
-        </Suspense>
-      </NavLink>
+      <AccountLink isLoggedIn={isLoggedIn} />
       <SearchToggle />
       <CartToggle cart={cart} />
     </nav>
   );
 }
 
+function AccountLink({isLoggedIn}: {isLoggedIn: Promise<boolean>}) {
+  return (
+    <NavLink prefetch="intent" to="/account" className="flex items-center">
+      <Suspense
+        fallback={
+          <>
+            <User
+              className={`${ICON_CLASSES} lg:hidden`}
+              strokeWidth={ICON_STROKE_WIDTH}
+            />
+            <span className="hidden lg:inline">Sign in</span>
+          </>
+        }
+      >
+        <Await
+          resolve={isLoggedIn}
+          errorElement={
+            <>
+              <User
+                className={`${ICON_CLASSES} lg:hidden`}
+                strokeWidth={ICON_STROKE_WIDTH}
+              />
+              <span className="hidden lg:inline">Sign in</span>
+            </>
+          }
+        >
+          {(isLoggedIn) => (
+            <>
+              <User
+                className={`${ICON_CLASSES} lg:hidden`}
+                strokeWidth={ICON_STROKE_WIDTH}
+              />
+              <span className="hidden lg:inline">
+                {isLoggedIn ? 'Account' : 'Sign in'}
+              </span>
+            </>
+          )}
+        </Await>
+      </Suspense>
+    </NavLink>
+  );
+}
+
 function HeaderMenuMobileToggle() {
   const {open} = useAside();
   return (
-    <button
-      className="header-menu-mobile-toggle reset"
+    <Button
+      type="button"
+      variant="ghost"
+      size="icon"
+      className="lg:hidden"
       onClick={() => open('mobile')}
     >
-      <h3>☰</h3>
-    </button>
+      <Menu className={ICON_CLASSES} strokeWidth={ICON_STROKE_WIDTH} />
+      <span className="sr-only">Toggle menu</span>
+    </Button>
   );
 }
 
 function SearchToggle() {
   const {open} = useAside();
   return (
-    <button className="reset" onClick={() => open('search')}>
-      Search
-    </button>
+    <Button
+      type="button"
+      variant="ghost"
+      size="icon"
+      onClick={() => open('search')}
+    >
+      <Search className={ICON_CLASSES} strokeWidth={ICON_STROKE_WIDTH} />
+      <span className="sr-only">Search</span>
+    </Button>
   );
 }
 
@@ -141,8 +201,11 @@ function CartBadge({count}: {count: number | null}) {
   const {publish, shop, cart, prevCart} = useAnalytics();
 
   return (
-    <a
-      href="/cart"
+    <Button
+      type="button"
+      variant="ghost"
+      size="icon"
+      className="relative"
       onClick={(e) => {
         e.preventDefault();
         open('cart');
@@ -154,8 +217,14 @@ function CartBadge({count}: {count: number | null}) {
         } as CartViewPayload);
       }}
     >
-      Cart {count === null ? <span>&nbsp;</span> : count}
-    </a>
+      <ShoppingCart className={ICON_CLASSES} strokeWidth={ICON_STROKE_WIDTH} />
+      {count !== null && count > 0 && (
+        <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          {count}
+        </span>
+      )}
+      <span className="sr-only">Cart ({count ?? 0} items)</span>
+    </Button>
   );
 }
 

@@ -2,9 +2,14 @@ import {
   createContext,
   type ReactNode,
   useContext,
-  useEffect,
   useState,
 } from 'react';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '~/components/ui/sheet';
 
 type AsideType = 'search' | 'cart' | 'mobile' | 'closed';
 type AsideContextValue = {
@@ -14,7 +19,7 @@ type AsideContextValue = {
 };
 
 /**
- * A side bar component with Overlay
+ * A side bar component using shadcn Sheet
  * @example
  * ```jsx
  * <Aside type="search" heading="SEARCH">
@@ -33,42 +38,30 @@ export function Aside({
   heading: React.ReactNode;
 }) {
   const {type: activeType, close} = useAside();
-  const expanded = type === activeType;
+  const isOpen = type === activeType;
 
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    if (expanded) {
-      document.addEventListener(
-        'keydown',
-        function handler(event: KeyboardEvent) {
-          if (event.key === 'Escape') {
-            close();
-          }
-        },
-        {signal: abortController.signal},
-      );
+  // Determine which side the sheet should appear from
+  const getSide = () => {
+    switch (type) {
+      case 'mobile':
+        return 'left';
+      case 'cart':
+      case 'search':
+        return 'right';
+      default:
+        return 'right';
     }
-    return () => abortController.abort();
-  }, [close, expanded]);
+  };
 
   return (
-    <div
-      aria-modal
-      className={`overlay ${expanded ? 'expanded' : ''}`}
-      role="dialog"
-    >
-      <button className="close-outside" onClick={close} />
-      <aside>
-        <header>
-          <h3>{heading}</h3>
-          <button className="close reset" onClick={close} aria-label="Close">
-            &times;
-          </button>
-        </header>
-        <main>{children}</main>
-      </aside>
-    </div>
+    <Sheet open={isOpen} onOpenChange={(open) => !open && close()}>
+      <SheetContent side={getSide()}>
+        <SheetHeader>
+          <SheetTitle>{heading}</SheetTitle>
+        </SheetHeader>
+        <div className="mt-6 h-full overflow-y-auto">{children}</div>
+      </SheetContent>
+    </Sheet>
   );
 }
 
