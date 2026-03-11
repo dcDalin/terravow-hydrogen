@@ -31,6 +31,7 @@ export default defineConfig({
        * @see https://vitejs.dev/config/dep-optimization-options
        */
       include: [
+        'react-fast-marquee',
         'use-sync-external-store/shim',
         'set-cookie-parser',
         'cookie',

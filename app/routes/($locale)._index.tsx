@@ -8,6 +8,7 @@ import type {
 import {ProductItem} from '~/components/ProductItem';
 import type {Route} from './+types/($locale)._index';
 import {Button} from '~/components/ui/button';
+import HomePageMarquee from '~/components/Marquee/HomePageMarquee';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'TerraVow | Home'}];
@@ -61,6 +62,9 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home">
+      <HomePageMarquee
+        items={['On Sale Now', '6-12 day worldwide shipping', 'spring sale']}
+      />
       <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} />
       <Button>hello shadcn</Button>
