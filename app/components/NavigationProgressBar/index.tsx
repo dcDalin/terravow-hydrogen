@@ -39,7 +39,7 @@ export const NavigationProgressBar = () => {
       role="progressbar"
       aria-label="Navigation progress"
       aria-valuetext={active ? 'Loading' : undefined}
-      className="fixed inset-x-0 top-0 left-0 z-100 h-1 animate-pulse"
+      className="fixed inset-x-0 top-0 left-0 z-100 h-0.5 animate-pulse"
     >
       <div
         ref={ref}

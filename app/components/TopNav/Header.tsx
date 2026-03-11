@@ -32,7 +32,7 @@ export function Header({
   const {shop, menu} = header;
   return (
     <nav className="flex h-16 w-full items-center border-b border-border bg-background/95 backdrop-blur-sm sticky top-0 z-50 shadow-[0_1px_0_0_hsl(var(--border)/0.8)]">
-      <div className="flex h-full w-full items-center justify-between container mx-auto px-6 md:px-8">
+      <div className="flex h-full w-full items-center justify-between max-w-6xl mx-auto px-6 md:px-8">
         {/* Mobile menu toggle */}
         <HeaderMenuMobileToggle />
 
@@ -41,7 +41,7 @@ export function Header({
           <img
             src={logoImage}
             alt={shop.name}
-            className="h-10 md:h-15 w-auto"
+            className="h-10 md:h-14 w-auto"
           />
         </NavLink>
 
@@ -108,7 +108,7 @@ export function HeaderMenu({
               prefetch="intent"
               to={url}
               className={({isActive}) =>
-                `border border-red-500 group relative flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium tracking-[0.08em] uppercase transition-colors duration-200 ${
+                `group relative flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium tracking-[0.08em] uppercase transition-colors duration-200 ${
                   isActive
                     ? 'text-foreground bg-accent'
                     : 'text-muted-foreground hover:text-foreground hover:bg-accent'
