@@ -11,6 +11,7 @@ import {
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
+import {SafeHtml} from '~/components/SafeHtml';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -98,7 +99,7 @@ export default function Product() {
   const {title, descriptionHtml} = product;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-5xl mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         {/* Product Image */}
         <div className="sticky top-4 self-start">
@@ -130,9 +131,9 @@ export default function Product() {
               <h2 className="text-sm font-semibold tracking-wide uppercase text-foreground mb-4">
                 Description
               </h2>
-              <div
+              <SafeHtml
+                html={descriptionHtml}
                 className="prose prose-sm max-w-none text-muted-foreground"
-                dangerouslySetInnerHTML={{__html: descriptionHtml}}
               />
             </div>
           )}
