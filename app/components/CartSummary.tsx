@@ -3,31 +3,41 @@ import type {CartLayout} from '~/components/CartMain';
 import {CartForm, Money, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useRef} from 'react';
 import {useFetcher} from 'react-router';
+import {Button} from '~/components/ui/button';
+import {ArrowRight, Tag, Gift, X} from 'lucide-react';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
   layout: CartLayout;
 };
 
-export function CartSummary({cart, layout}: CartSummaryProps) {
-  const className =
-    layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
-
+export function CartSummary({cart}: CartSummaryProps) {
   return (
-    <div aria-labelledby="cart-summary" className={className}>
-      <h4>Totals</h4>
-      <dl className="cart-subtotal">
-        <dt>Subtotal</dt>
-        <dd>
+    <div
+      aria-labelledby="cart-summary"
+      className="border-t border-border px-4 py-4 space-y-4"
+    >
+      {/* Discounts and Gift Cards */}
+      <CartDiscounts discountCodes={cart?.discountCodes} />
+      <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />
+
+      {/* Subtotal */}
+      <div className="flex items-center justify-between py-3 border-t border-border">
+        <span className="text-sm font-semibold text-foreground">Subtotal</span>
+        <span className="text-lg font-bold text-foreground">
           {cart?.cost?.subtotalAmount?.amount ? (
             <Money data={cart?.cost?.subtotalAmount} />
           ) : (
             '-'
           )}
-        </dd>
-      </dl>
-      <CartDiscounts discountCodes={cart?.discountCodes} />
-      <CartGiftCard giftCardCodes={cart?.appliedGiftCards} />
+        </span>
+      </div>
+
+      <p className="text-xs text-muted-foreground">
+        Taxes and shipping calculated at checkout
+      </p>
+
+      {/* Checkout Button */}
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
     </div>
   );
@@ -37,12 +47,16 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
-      <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
-      </a>
-      <br />
-    </div>
+    <a href={checkoutUrl} target="_self" className="block">
+      <Button
+        variant="default"
+        size="lg"
+        className="w-full rounded-full"
+      >
+        Continue to Checkout
+        <ArrowRight className="ml-2" />
+      </Button>
+    </a>
   );
 }
 
@@ -57,26 +71,31 @@ function CartDiscounts({
       ?.map(({code}) => code) || [];
 
   return (
-    <div>
+    <div className="space-y-2">
       {/* Have existing discount, display it with a remove option */}
-      <dl hidden={!codes.length}>
-        <div>
-          <dt>Discount(s)</dt>
+      {codes.length > 0 && (
+        <div className="flex items-center gap-2 p-2 bg-muted rounded-lg">
+          <Tag className="size-4 text-primary" />
+          <span className="flex-1 text-sm font-medium text-foreground">
+            {codes.join(', ')}
+          </span>
           <UpdateDiscountForm>
-            <div className="cart-discount">
-              <code>{codes?.join(', ')}</code>
-              &nbsp;
-              <button type="submit" aria-label="Remove discount">
-                Remove
-              </button>
-            </div>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              type="submit"
+              aria-label="Remove discount"
+              className="text-muted-foreground hover:text-destructive"
+            >
+              <X className="size-4" />
+            </Button>
           </UpdateDiscountForm>
         </div>
-      </dl>
+      )}
 
       {/* Show an input to apply a discount */}
       <UpdateDiscountForm discountCodes={codes}>
-        <div>
+        <div className="flex gap-2">
           <label htmlFor="discount-code-input" className="sr-only">
             Discount code
           </label>
@@ -85,11 +104,16 @@ function CartDiscounts({
             type="text"
             name="discountCode"
             placeholder="Discount code"
+            className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
           />
-          &nbsp;
-          <button type="submit" aria-label="Apply discount code">
+          <Button
+            type="submit"
+            variant="outline"
+            size="default"
+            aria-label="Apply discount code"
+          >
             Apply
-          </button>
+          </Button>
         </div>
       </UpdateDiscountForm>
     </div>
@@ -131,36 +155,56 @@ function CartGiftCard({
   }, [giftCardAddFetcher.data]);
 
   return (
-    <div>
+    <div className="space-y-2">
+      {/* Applied Gift Cards */}
       {giftCardCodes && giftCardCodes.length > 0 && (
-        <dl>
-          <dt>Applied Gift Card(s)</dt>
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-foreground">Applied Gift Cards</p>
           {giftCardCodes.map((giftCard) => (
             <RemoveGiftCardForm key={giftCard.id} giftCardId={giftCard.id}>
-              <div className="cart-discount">
-                <code>***{giftCard.lastCharacters}</code>
-                &nbsp;
-                <Money data={giftCard.amountUsed} />
-                &nbsp;
-                <button type="submit">Remove</button>
+              <div className="flex items-center gap-2 p-2 bg-muted rounded-lg">
+                <Gift className="size-4 text-primary" />
+                <span className="flex-1 text-sm font-mono text-foreground">
+                  ***{giftCard.lastCharacters}
+                </span>
+                <Money
+                  data={giftCard.amountUsed}
+                  className="text-sm font-medium text-foreground"
+                />
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  type="submit"
+                  aria-label="Remove gift card"
+                  className="text-muted-foreground hover:text-destructive"
+                >
+                  <X className="size-4" />
+                </Button>
               </div>
             </RemoveGiftCardForm>
           ))}
-        </dl>
+        </div>
       )}
 
+      {/* Add Gift Card */}
       <AddGiftCardForm fetcherKey="gift-card-add">
-        <div>
+        <div className="flex gap-2">
           <input
             type="text"
             name="giftCardCode"
             placeholder="Gift card code"
             ref={giftCardCodeInput}
+            className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
           />
-          &nbsp;
-          <button type="submit" disabled={giftCardAddFetcher.state !== 'idle'}>
+          <Button
+            type="submit"
+            variant="outline"
+            size="default"
+            disabled={giftCardAddFetcher.state !== 'idle'}
+            aria-label="Apply gift card"
+          >
             Apply
-          </button>
+          </Button>
         </div>
       </AddGiftCardForm>
     </div>

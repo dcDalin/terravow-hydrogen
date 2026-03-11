@@ -5,9 +5,10 @@ import {useVariantUrl} from '~/lib/variants';
 import {Link} from 'react-router';
 import {ProductPrice} from './ProductPrice';
 import {useAside} from './Aside';
+import {Button} from '~/components/ui/button';
+import {Minus, Plus, Trash2} from 'lucide-react';
 import type {
   CartApiQueryFragment,
-  CartLineFragment,
 } from 'storefrontapi.generated';
 
 export type CartLine = OptimisticCartLine<CartApiQueryFragment>;
@@ -35,20 +36,10 @@ export function CartLineItem({
   const childrenLabelId = `cart-line-children-${id}`;
 
   return (
-    <li key={id} className="cart-line">
-      <div className="cart-line-inner">
+    <li key={id} className="flex gap-4 py-4 border-b border-border last:border-0">
+      <div className="flex-1 flex gap-4">
+        {/* Product Image */}
         {image && (
-          <Image
-            alt={title}
-            aspectRatio="1/1"
-            data={image}
-            height={100}
-            loading="lazy"
-            width={100}
-          />
-        )}
-
-        <div>
           <Link
             prefetch="intent"
             to={lineItemUrl}
@@ -57,31 +48,63 @@ export function CartLineItem({
                 close();
               }
             }}
+            className="shrink-0"
           >
-            <p>
-              <strong>{product.title}</strong>
-            </p>
+            <div className="w-20 h-20 rounded-lg overflow-hidden ring-1 ring-border">
+              <Image
+                alt={title}
+                aspectRatio="1/1"
+                data={image}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
           </Link>
-          <ProductPrice price={line?.cost?.totalAmount} />
-          <ul>
-            {selectedOptions.map((option) => (
-              <li key={option.name}>
-                <small>
+        )}
+
+        {/* Product Details */}
+        <div className="flex-1 flex flex-col gap-1">
+          <Link
+            prefetch="intent"
+            to={lineItemUrl}
+            onClick={() => {
+              if (layout === 'aside') {
+                close();
+              }
+            }}
+            className="hover:text-primary transition-colors"
+          >
+            <p className="font-medium text-sm text-foreground">{product.title}</p>
+          </Link>
+
+          {/* Selected Options */}
+          {selectedOptions.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {selectedOptions.map((option) => (
+                <span
+                  key={option.name}
+                  className="text-xs text-muted-foreground"
+                >
                   {option.name}: {option.value}
-                </small>
-              </li>
-            ))}
-          </ul>
+                </span>
+              ))}
+            </div>
+          )}
+
+          <ProductPrice price={line?.cost?.totalAmount} />
+
+          {/* Quantity Controls */}
           <CartLineQuantity line={line} />
         </div>
       </div>
 
+      {/* Child Line Items */}
       {lineItemChildren ? (
-        <div>
+        <div className="mt-2 ml-24">
           <p id={childrenLabelId} className="sr-only">
             Line items with {product.title}
           </p>
-          <ul aria-labelledby={childrenLabelId} className="cart-line-children">
+          <ul aria-labelledby={childrenLabelId} className="space-y-2">
             {lineItemChildren.map((childLine) => (
               <CartLineItem
                 childrenMap={childrenMap}
@@ -109,30 +132,41 @@ function CartLineQuantity({line}: {line: CartLine}) {
   const nextQuantity = Number((quantity + 1).toFixed(0));
 
   return (
-    <div className="cart-line-quantity">
-      <small>Quantity: {quantity} &nbsp;&nbsp;</small>
-      <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
-        <button
-          aria-label="Decrease quantity"
-          disabled={quantity <= 1 || !!isOptimistic}
-          name="decrease-quantity"
-          value={prevQuantity}
-        >
-          <span>&#8722; </span>
-        </button>
-      </CartLineUpdateButton>
-      &nbsp;
-      <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
-        <button
-          aria-label="Increase quantity"
-          name="increase-quantity"
-          value={nextQuantity}
-          disabled={!!isOptimistic}
-        >
-          <span>&#43;</span>
-        </button>
-      </CartLineUpdateButton>
-      &nbsp;
+    <div className="flex items-center gap-2 mt-2">
+      {/* Quantity Controls */}
+      <div className="flex items-center gap-1 rounded-lg border border-border">
+        <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Decrease quantity"
+            disabled={quantity <= 1 || !!isOptimistic}
+            name="decrease-quantity"
+            className="h-7 w-7 rounded-none border-r border-border"
+          >
+            <Minus className="size-3" />
+          </Button>
+        </CartLineUpdateButton>
+
+        <span className="px-3 text-sm font-medium text-foreground min-w-8 text-center">
+          {quantity}
+        </span>
+
+        <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Increase quantity"
+            name="increase-quantity"
+            disabled={!!isOptimistic}
+            className="h-7 w-7 rounded-none border-l border-border"
+          >
+            <Plus className="size-3" />
+          </Button>
+        </CartLineUpdateButton>
+      </div>
+
+      {/* Remove Button */}
       <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} />
     </div>
   );
@@ -157,9 +191,16 @@ function CartLineRemoveButton({
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{lineIds}}
     >
-      <button disabled={disabled} type="submit">
-        Remove
-      </button>
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        disabled={disabled}
+        type="submit"
+        aria-label="Remove item"
+        className="text-muted-foreground hover:text-destructive"
+      >
+        <Trash2 className="size-4" />
+      </Button>
     </CartForm>
   );
 }
