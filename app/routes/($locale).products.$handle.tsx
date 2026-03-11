@@ -102,7 +102,10 @@ export default function Product() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         {/* Product Image */}
         <div className="sticky top-4 self-start">
-          <ProductImage image={selectedVariant?.image} />
+          <ProductImage
+            image={selectedVariant?.image}
+            images={product.images?.nodes || []}
+          />
         </div>
 
         {/* Product Details */}
@@ -201,6 +204,15 @@ const PRODUCT_FRAGMENT = `#graphql
     description
     encodedVariantExistence
     encodedVariantAvailability
+    images(first: 10) {
+      nodes {
+        id
+        url
+        altText
+        width
+        height
+      }
+    }
     options {
       name
       optionValues {
