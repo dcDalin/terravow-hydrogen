@@ -165,6 +165,15 @@ const FEATURED_COLLECTION_QUERY = `#graphql
       width
       height
     }
+    images(first: 5) {
+      nodes {
+        id
+        url
+        altText
+        width
+        height
+      }
+    }
     priceRange {
       minVariantPrice {
         amount

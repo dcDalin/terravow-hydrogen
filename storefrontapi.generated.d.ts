@@ -406,6 +406,14 @@ export type FeaturedCollectionFragment = Pick<
             'id' | 'url' | 'altText' | 'width' | 'height'
           >
         >;
+        images?: {
+          nodes: Array<
+            Pick<
+              StorefrontAPI.Image,
+              'id' | 'url' | 'altText' | 'width' | 'height'
+            >
+          >;
+        };
         priceRange: {
           minVariantPrice: Pick<
             StorefrontAPI.MoneyV2,
