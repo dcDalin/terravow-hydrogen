@@ -12,6 +12,7 @@ import TestimonialsSection from '~/components/Home/TestimonialsSection';
 import TrustSection from '~/components/Home/TrustSection';
 import ResultsSection from '~/components/Home/ResultsSection';
 import NewsletterSection from '~/components/Home/NewsletterSection';
+import {motion} from 'framer-motion';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'TerraVow | Home'}];
@@ -63,7 +64,7 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 
 export default function Homepage({loaderData}: Route.ComponentProps) {
   return (
-    <div className="home">
+    <div className="bg-background">
       {/* Announcement Bar */}
       <HomePageMarquee
         items={[
@@ -74,22 +75,63 @@ export default function Homepage({loaderData}: Route.ComponentProps) {
       />
 
       {/* Featured Products - First conversion point */}
-      <FeaturedCollectionCard collection={loaderData.featuredCollection} />
+      <motion.div
+        initial={{opacity: 0, y: 20}}
+        animate={{opacity: 1, y: 0}}
+        transition={{duration: 0.6, ease: 'easeOut'}}
+      >
+        <FeaturedCollectionCard collection={loaderData.featuredCollection} />
+      </motion.div>
 
       {/* Social Proof - Build credibility */}
-      <TestimonialsSection />
+      <motion.div
+        initial={{opacity: 0, y: 20}}
+        whileInView={{opacity: 1, y: 0}}
+        viewport={{once: true, margin: '-100px'}}
+        transition={{duration: 0.6, ease: 'easeOut'}}
+      >
+        <TestimonialsSection />
+      </motion.div>
 
       {/* Trust & Quality - Remove objections */}
-      <TrustSection />
+      <motion.div
+        initial={{opacity: 0, y: 20}}
+        whileInView={{opacity: 1, y: 0}}
+        viewport={{once: true, margin: '-100px'}}
+        transition={{duration: 0.6, ease: 'easeOut'}}
+      >
+        <TrustSection />
+      </motion.div>
 
       {/* Results Timeline - Set expectations */}
-      <ResultsSection />
+      <motion.div
+        initial={{opacity: 0, y: 20}}
+        whileInView={{opacity: 1, y: 0}}
+        viewport={{once: true, margin: '-100px'}}
+        transition={{duration: 0.6, ease: 'easeOut'}}
+      >
+        <ResultsSection />
+      </motion.div>
 
       {/* Recommended Products - Additional options */}
-      <RecommendedProducts products={loaderData.recommendedProducts} />
+      <motion.div
+        initial={{opacity: 0, y: 20}}
+        whileInView={{opacity: 1, y: 0}}
+        viewport={{once: true, margin: '-100px'}}
+        transition={{duration: 0.6, ease: 'easeOut'}}
+      >
+        <RecommendedProducts products={loaderData.recommendedProducts} />
+      </motion.div>
 
       {/* Newsletter - Capture leads */}
-      <NewsletterSection />
+      <motion.div
+        initial={{opacity: 0, y: 20}}
+        whileInView={{opacity: 1, y: 0}}
+        viewport={{once: true, margin: '-100px'}}
+        transition={{duration: 0.6, ease: 'easeOut'}}
+      >
+        <NewsletterSection />
+      </motion.div>
     </div>
   );
 }
@@ -100,26 +142,32 @@ function RecommendedProducts({
   products: Promise<RecommendedProductsQuery | null>;
 }) {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-sm tracking-[0.25em] uppercase text-rose-600 mb-4 font-semibold">
+        <motion.div
+          initial={{opacity: 0, y: 20}}
+          whileInView={{opacity: 1, y: 0}}
+          viewport={{once: true}}
+          transition={{duration: 0.6, ease: 'easeOut'}}
+          className="text-center mb-16"
+        >
+          <h2 className="text-sm tracking-[0.25em] uppercase text-primary mb-4 font-semibold">
             Complete Your Routine
           </h2>
-          <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h3 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             More Ways to Thrive
           </h3>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Explore our curated collection of premium supplements designed to
             support every aspect of your wellness journey.
           </p>
-        </div>
+        </motion.div>
 
         <Suspense
           fallback={
             <div className="flex items-center justify-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-rose-200 border-t-rose-600" />
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-muted border-t-primary" />
             </div>
           }
         >
@@ -127,8 +175,20 @@ function RecommendedProducts({
             {(response) => (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {response
-                  ? response.products.nodes.map((product) => (
-                      <ProductItem key={product.id} product={product} />
+                  ? response.products.nodes.map((product, index) => (
+                      <motion.div
+                        key={product.id}
+                        initial={{opacity: 0, y: 20}}
+                        whileInView={{opacity: 1, y: 0}}
+                        viewport={{once: true}}
+                        transition={{
+                          duration: 0.5,
+                          delay: index * 0.1,
+                          ease: 'easeOut',
+                        }}
+                      >
+                        <ProductItem product={product} />
+                      </motion.div>
                     ))
                   : null}
               </div>
@@ -137,17 +197,23 @@ function RecommendedProducts({
         </Suspense>
 
         {/* View All CTA */}
-        <div className="mt-12 text-center">
+        <motion.div
+          initial={{opacity: 0, y: 20}}
+          whileInView={{opacity: 1, y: 0}}
+          viewport={{once: true}}
+          transition={{duration: 0.6, delay: 0.4, ease: 'easeOut'}}
+          className="mt-12 text-center"
+        >
           <Link to="/collections/all">
             <Button
               size="lg"
               variant="outline"
-              className="h-12 px-8 text-base border-2 border-rose-600 text-rose-600 hover:bg-rose-50"
+              className="h-12 px-8 text-base rounded-full"
             >
               View All Products
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
