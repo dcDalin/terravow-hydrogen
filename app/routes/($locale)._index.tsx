@@ -9,6 +9,7 @@ import {ProductItem} from '~/components/ProductItem';
 import type {Route} from './+types/($locale)._index';
 import {Button} from '~/components/ui/button';
 import HomePageMarquee from '~/components/Marquee/HomePageMarquee';
+import FeaturedCollectionCard from '~/components/Cards/FeaturedCollectionCard';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'TerraVow | Home'}];
@@ -58,16 +59,15 @@ function loadDeferredData({context}: Route.LoaderArgs) {
   };
 }
 
-export default function Homepage() {
-  const data = useLoaderData<typeof loader>();
+export default function Homepage({loaderData}: Route.ComponentProps) {
   return (
     <div className="home">
       <HomePageMarquee
         items={['On Sale Now', '6-12 day worldwide shipping', 'spring sale']}
       />
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
-      <Button>hello shadcn</Button>
+      {/* <FeaturedCollectionCard collection={loaderData.featuredCollection} /> */}
+      <FeaturedCollection collection={loaderData.featuredCollection} />
+      <RecommendedProducts products={loaderData.recommendedProducts} />
     </div>
   );
 }
