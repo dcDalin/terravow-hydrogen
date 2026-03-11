@@ -1,15 +1,17 @@
-import {Await, useLoaderData, Link} from 'react-router';
+import {Await, Link} from 'react-router';
 import {Suspense} from 'react';
-import {Image} from '@shopify/hydrogen';
-import type {
-  FeaturedCollectionFragment,
-  RecommendedProductsQuery,
-} from 'storefrontapi.generated';
+import type {RecommendedProductsQuery} from 'storefrontapi.generated';
 import {ProductItem} from '~/components/ProductItem';
 import type {Route} from './+types/($locale)._index';
 import {Button} from '~/components/ui/button';
 import HomePageMarquee from '~/components/Marquee/HomePageMarquee';
 import FeaturedCollectionCard from '~/components/Cards/FeaturedCollectionCard';
+import HeroSection from '~/components/Home/HeroSection';
+import BenefitsSection from '~/components/Home/BenefitsSection';
+import TestimonialsSection from '~/components/Home/TestimonialsSection';
+import TrustSection from '~/components/Home/TrustSection';
+import ResultsSection from '~/components/Home/ResultsSection';
+import NewsletterSection from '~/components/Home/NewsletterSection';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'TerraVow | Home'}];
@@ -62,35 +64,33 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 export default function Homepage({loaderData}: Route.ComponentProps) {
   return (
     <div className="home">
+      {/* Announcement Bar */}
       <HomePageMarquee
-        items={['On Sale Now', '6-12 day worldwide shipping', 'spring sale']}
+        items={[
+          'Free Shipping on Orders Over $75',
+          '90-Day Money-Back Guarantee',
+          'Save 20% with Subscribe & Save',
+        ]}
       />
-      {/* <FeaturedCollectionCard collection={loaderData.featuredCollection} /> */}
-      <FeaturedCollection collection={loaderData.featuredCollection} />
-      <RecommendedProducts products={loaderData.recommendedProducts} />
-    </div>
-  );
-}
 
-function FeaturedCollection({
-  collection,
-}: {
-  collection: FeaturedCollectionFragment;
-}) {
-  if (!collection) return null;
-  const image = collection?.image;
-  return (
-    <Link
-      className="featured-collection"
-      to={`/collections/${collection.handle}`}
-    >
-      {image && (
-        <div className="featured-collection-image">
-          <Image data={image} sizes="100vw" />
-        </div>
-      )}
-      <h1>{collection.title}</h1>
-    </Link>
+      {/* Featured Products - First conversion point */}
+      <FeaturedCollectionCard collection={loaderData.featuredCollection} />
+
+      {/* Social Proof - Build credibility */}
+      <TestimonialsSection />
+
+      {/* Trust & Quality - Remove objections */}
+      <TrustSection />
+
+      {/* Results Timeline - Set expectations */}
+      <ResultsSection />
+
+      {/* Recommended Products - Additional options */}
+      <RecommendedProducts products={loaderData.recommendedProducts} />
+
+      {/* Newsletter - Capture leads */}
+      <NewsletterSection />
+    </div>
   );
 }
 
@@ -100,30 +100,86 @@ function RecommendedProducts({
   products: Promise<RecommendedProductsQuery | null>;
 }) {
   return (
-    <div className="recommended-products">
-      <h2>Recommended Products</h2>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Await resolve={products}>
-          {(response) => (
-            <div className="recommended-products-grid">
-              {response
-                ? response.products.nodes.map((product) => (
-                    <ProductItem key={product.id} product={product} />
-                  ))
-                : null}
+    <section className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-sm tracking-[0.25em] uppercase text-rose-600 mb-4 font-semibold">
+            Complete Your Routine
+          </h2>
+          <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            More Ways to Thrive
+          </h3>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Explore our curated collection of premium supplements designed to
+            support every aspect of your wellness journey.
+          </p>
+        </div>
+
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-4 border-rose-200 border-t-rose-600" />
             </div>
-          )}
-        </Await>
-      </Suspense>
-      <br />
-    </div>
+          }
+        >
+          <Await resolve={products}>
+            {(response) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {response
+                  ? response.products.nodes.map((product) => (
+                      <ProductItem key={product.id} product={product} />
+                    ))
+                  : null}
+              </div>
+            )}
+          </Await>
+        </Suspense>
+
+        {/* View All CTA */}
+        <div className="mt-12 text-center">
+          <Link to="/collections/all">
+            <Button
+              size="lg"
+              variant="outline"
+              className="h-12 px-8 text-base border-2 border-rose-600 text-rose-600 hover:bg-rose-50"
+            >
+              View All Products
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }
 
 const FEATURED_COLLECTION_QUERY = `#graphql
+  fragment FeaturedCollectionProduct on Product {
+    id
+    title
+    handle
+    featuredImage {
+      id
+      url
+      altText
+      width
+      height
+    }
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+  }
   fragment FeaturedCollection on Collection {
     id
     title
+    description
     image {
       id
       url
@@ -132,6 +188,11 @@ const FEATURED_COLLECTION_QUERY = `#graphql
       height
     }
     handle
+    products(first: 4) {
+      nodes {
+        ...FeaturedCollectionProduct
+      }
+    }
   }
   query FeaturedCollection($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
