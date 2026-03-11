@@ -3,6 +3,7 @@ import type {Route} from './+types/($locale).collections._index';
 import {getPaginationVariables, Image} from '@shopify/hydrogen';
 import type {CollectionFragment} from 'storefrontapi.generated';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
+import {motion} from 'framer-motion';
 
 export async function loader(args: Route.LoaderArgs) {
   // Start fetching non-critical data without blocking time to first byte
@@ -46,11 +47,23 @@ export default function Collections() {
   const {collections} = useLoaderData<typeof loader>();
 
   return (
-    <div className="collections">
-      <h1>Collections</h1>
+    <div className="max-w-7xl mx-auto px-4 py-12">
+      <motion.div
+        initial={{opacity: 0, y: 20}}
+        animate={{opacity: 1, y: 0}}
+        transition={{duration: 0.6}}
+        className="text-center mb-12"
+      >
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          Collections
+        </h1>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Explore our curated collections of premium products
+        </p>
+      </motion.div>
       <PaginatedResourceSection<CollectionFragment>
         connection={collections}
-        resourcesClassName="collections-grid"
+        resourcesClassName="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
       >
         {({node: collection, index}) => (
           <CollectionItem
@@ -72,23 +85,35 @@ function CollectionItem({
   index: number;
 }) {
   return (
-    <Link
-      className="collection-item"
-      key={collection.id}
-      to={`/collections/${collection.handle}`}
-      prefetch="intent"
+    <motion.div
+      initial={{opacity: 0, y: 20}}
+      whileInView={{opacity: 1, y: 0}}
+      viewport={{once: true}}
+      transition={{duration: 0.5, delay: index * 0.1}}
     >
-      {collection?.image && (
-        <Image
-          alt={collection.image.altText || collection.title}
-          aspectRatio="1/1"
-          data={collection.image}
-          loading={index < 3 ? 'eager' : undefined}
-          sizes="(min-width: 45em) 400px, 100vw"
-        />
-      )}
-      <h5>{collection.title}</h5>
-    </Link>
+      <Link
+        className="group block"
+        key={collection.id}
+        to={`/collections/${collection.handle}`}
+        prefetch="intent"
+      >
+        <div className="relative overflow-hidden rounded-xl bg-card border border-border mb-4">
+          {collection?.image && (
+            <Image
+              alt={collection.image.altText || collection.title}
+              aspectRatio="1/1"
+              data={collection.image}
+              loading={index < 3 ? 'eager' : undefined}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              sizes="(min-width: 45em) 400px, 100vw"
+            />
+          )}
+        </div>
+        <h5 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+          {collection.title}
+        </h5>
+      </Link>
+    </motion.div>
   );
 }
 

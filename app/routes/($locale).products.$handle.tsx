@@ -12,7 +12,7 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import {SafeHtml} from '~/components/SafeHtml';
-import TestimonialCard from '~/components/Cards/TestimonialCard';
+import {CustomerReview} from '~/components/CustomerReview';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -139,18 +139,8 @@ export default function Product() {
             </div>
           )}
 
-          {/* Customer Review */}
-          <div className="pt-6 border-t border-border">
-            <h2 className="text-sm font-semibold tracking-wide uppercase text-foreground mb-4">
-              Customer Review
-            </h2>
-            <TestimonialCard
-              imageUrl="https://i.pravatar.cc/150?img=47"
-              name="Sarah Mitchell"
-              starRating={5.0}
-              review="This product exceeded all my expectations. The quality is outstanding and I've already recommended it to all my friends!"
-            />
-          </div>
+          {/* Customer Reviews Carousel */}
+          <CustomerReview productHandle={product.handle} />
         </div>
       </div>
       <Analytics.ProductView

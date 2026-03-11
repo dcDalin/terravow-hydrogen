@@ -2,14 +2,14 @@ import {Button} from '~/components/ui/button';
 
 export default function NewsletterSection() {
   return (
-    <section className="py-20 bg-gradient-to-br from-rose-50 to-pink-50">
+    <section className="py-20 bg-muted/50">
       <div className="max-w-4xl mx-auto px-4">
-        <div className="bg-white rounded-3xl shadow-2xl shadow-rose-500/20 overflow-hidden">
+        <div className="bg-card rounded-3xl shadow-lg border border-border overflow-hidden">
           <div className="grid md:grid-cols-2">
             {/* Left Side - Content */}
             <div className="p-8 md:p-12 flex flex-col justify-center">
               <div className="inline-block mb-4">
-                <span className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-rose-100 to-pink-100 text-rose-900 rounded-full text-sm font-medium">
+                <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
                   <svg
                     className="w-4 h-4"
                     fill="currentColor"
@@ -22,11 +22,11 @@ export default function NewsletterSection() {
                 </span>
               </div>
 
-              <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                 Get 20% Off Your First Order
               </h3>
 
-              <p className="text-gray-600 mb-6 leading-relaxed">
+              <p className="text-muted-foreground mb-6 leading-relaxed">
                 Join our wellness community and receive exclusive anti-aging
                 tips, early access to new products, and special member-only
                 discounts.
@@ -36,26 +36,26 @@ export default function NewsletterSection() {
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  className="w-full px-4 py-3 rounded-xl border-2 border-rose-200 focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 transition-all"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-border bg-background focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring transition-all"
                   required
                 />
                 <Button
                   type="submit"
                   size="lg"
-                  className="w-full h-12 bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 shadow-lg shadow-rose-500/30"
+                  className="w-full h-12 rounded-full"
                 >
                   Get My 20% Discount
                 </Button>
               </form>
 
-              <p className="text-xs text-gray-500 mt-4">
+              <p className="text-xs text-muted-foreground mt-4">
                 By subscribing, you agree to receive marketing emails. You can
                 unsubscribe at any time.
               </p>
             </div>
 
             {/* Right Side - Benefits */}
-            <div className="bg-gradient-to-br from-rose-600 to-pink-600 p-8 md:p-12 flex flex-col justify-center text-white">
+            <div className="bg-primary p-8 md:p-12 flex flex-col justify-center text-primary-foreground">
               <h4 className="text-xl font-bold mb-6">
                 What You'll Receive:
               </h4>

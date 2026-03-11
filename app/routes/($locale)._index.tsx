@@ -6,8 +6,6 @@ import type {Route} from './+types/($locale)._index';
 import {Button} from '~/components/ui/button';
 import HomePageMarquee from '~/components/Marquee/HomePageMarquee';
 import FeaturedCollectionCard from '~/components/Cards/FeaturedCollectionCard';
-import HeroSection from '~/components/Home/HeroSection';
-import BenefitsSection from '~/components/Home/BenefitsSection';
 import TestimonialsSection from '~/components/Home/TestimonialsSection';
 import TrustSection from '~/components/Home/TrustSection';
 import ResultsSection from '~/components/Home/ResultsSection';

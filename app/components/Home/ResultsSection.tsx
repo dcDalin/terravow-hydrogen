@@ -30,17 +30,17 @@ export default function ResultsSection() {
   ];
 
   return (
-    <section className="py-20 md:py-32 bg-gradient-to-b from-white via-rose-50/20 to-white">
+    <section className="py-20 md:py-32 bg-background">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-20">
-          <h2 className="text-sm tracking-[0.25em] uppercase text-rose-600 mb-4 font-semibold">
+          <h2 className="text-sm tracking-[0.25em] uppercase text-primary mb-4 font-semibold">
             Your Transformation Journey
           </h2>
-          <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h3 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             What to Expect Month by Month
           </h3>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Real transformation takes time. Here's what thousands of women have
             experienced on their journey to renewed vitality.
           </p>
@@ -49,7 +49,7 @@ export default function ResultsSection() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-rose-200 via-rose-300 to-rose-200 hidden lg:block" />
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-border hidden lg:block" />
 
           <div className="space-y-16">
             {timeline.map((item, index) => (
@@ -66,21 +66,21 @@ export default function ResultsSection() {
                   }`}
                 >
                   <div
-                    className={`bg-white rounded-2xl p-8 shadow-lg border border-rose-100 hover:shadow-2xl hover:shadow-rose-500/20 transition-all duration-300 ${
+                    className={`bg-card rounded-2xl p-8 border border-border hover:shadow-lg transition-all duration-300 ${
                       index % 2 === 0
                         ? 'lg:ml-auto lg:mr-8'
                         : 'lg:mr-auto lg:ml-8'
                     } max-w-md`}
                   >
                     <div
-                      className={`inline-block px-4 py-1.5 bg-gradient-to-r from-rose-100 to-pink-100 rounded-full text-sm font-bold text-rose-700 mb-4`}
+                      className={`inline-block px-4 py-1.5 bg-primary/10 rounded-full text-sm font-bold text-primary mb-4`}
                     >
                       {item.week}
                     </div>
-                    <h4 className="text-2xl font-bold text-gray-900 mb-3">
+                    <h4 className="text-2xl font-bold text-foreground mb-3">
                       {item.title}
                     </h4>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-muted-foreground leading-relaxed">
                       {item.description}
                     </p>
                   </div>
@@ -88,8 +88,8 @@ export default function ResultsSection() {
 
                 {/* Timeline Dot */}
                 <div className="relative flex-shrink-0 hidden lg:block">
-                  <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg shadow-rose-500/50 z-10 relative">
-                    <span className="text-white font-bold text-lg">
+                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-lg z-10 relative">
+                    <span className="text-primary-foreground font-bold text-lg">
                       {index + 1}
                     </span>
                   </div>
@@ -103,11 +103,11 @@ export default function ResultsSection() {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-20 text-center bg-gradient-to-br from-rose-600 to-pink-600 rounded-3xl p-12 shadow-2xl shadow-rose-500/30">
-          <h4 className="text-3xl md:text-4xl font-bold text-white mb-4">
+        <div className="mt-20 text-center bg-primary rounded-3xl p-12 shadow-lg">
+          <h4 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
             Start Your Transformation Today
           </h4>
-          <p className="text-rose-100 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-primary-foreground/90 text-lg mb-8 max-w-2xl mx-auto">
             Join thousands of women who chose to invest in their vitality. Try
             it risk-free with our 90-day money-back guarantee.
           </p>
@@ -115,7 +115,8 @@ export default function ResultsSection() {
             <Link to="/collections/all">
               <Button
                 size="lg"
-                className="h-14 px-8 text-base bg-white text-rose-600 hover:bg-rose-50 shadow-xl"
+                variant="secondary"
+                className="h-14 px-8 text-base rounded-full"
               >
                 Shop Premium Collection
               </Button>
@@ -124,13 +125,13 @@ export default function ResultsSection() {
               <Button
                 size="lg"
                 variant="outline"
-                className="h-14 px-8 text-base border-2 border-white text-white hover:bg-white/10"
+                className="h-14 px-8 text-base border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 rounded-full"
               >
                 Take the 2-Minute Quiz
               </Button>
             </Link>
           </div>
-          <p className="text-rose-100 text-sm mt-6">
+          <p className="text-primary-foreground/80 text-sm mt-6">
             ✓ Free shipping on orders over $75 • ✓ Subscribe & save 20%
           </p>
         </div>

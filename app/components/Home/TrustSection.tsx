@@ -117,17 +117,17 @@ export default function TrustSection() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-rose-50/30">
+    <section className="py-20 bg-background">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-sm tracking-[0.25em] uppercase text-rose-600 mb-4 font-semibold">
+          <h2 className="text-sm tracking-[0.25em] uppercase text-primary mb-4 font-semibold">
             Quality You Can Trust
           </h2>
-          <h3 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h3 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Premium Standards, Exceptional Results
           </h3>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             We believe in complete transparency. Every ingredient is carefully
             sourced, rigorously tested, and backed by science.
           </p>
@@ -138,22 +138,22 @@ export default function TrustSection() {
           {trustBadges.map((badge, index) => (
             <div
               key={index}
-              className="flex flex-col items-center text-center p-6 bg-white rounded-2xl border border-rose-100 hover:shadow-xl hover:shadow-rose-500/10 transition-all duration-300 group"
+              className="flex flex-col items-center text-center p-6 bg-card rounded-2xl border border-border hover:shadow-lg transition-all duration-300 group"
             >
-              <div className="mb-4 text-rose-600 group-hover:scale-110 transition-transform duration-300">
+              <div className="mb-4 text-primary group-hover:scale-110 transition-transform duration-300">
                 {badge.icon}
               </div>
-              <h4 className="text-lg font-bold text-gray-900 mb-2">
+              <h4 className="text-lg font-bold text-foreground mb-2">
                 {badge.title}
               </h4>
-              <p className="text-sm text-gray-600">{badge.description}</p>
+              <p className="text-sm text-muted-foreground">{badge.description}</p>
             </div>
           ))}
         </div>
 
         {/* Bottom Certification Logos */}
-        <div className="mt-16 pt-12 border-t border-rose-200">
-          <p className="text-center text-sm text-gray-600 mb-8">
+        <div className="mt-16 pt-12 border-t border-border">
+          <p className="text-center text-sm text-muted-foreground mb-8">
             Certified by leading organizations
           </p>
           <div className="flex flex-wrap justify-center items-center gap-8 opacity-50">
@@ -162,7 +162,7 @@ export default function TrustSection() {
               (cert, index) => (
                 <div
                   key={index}
-                  className="px-6 py-3 bg-gray-100 rounded-lg font-semibold text-gray-700 text-sm"
+                  className="px-6 py-3 bg-muted rounded-lg font-semibold text-muted-foreground text-sm"
                 >
                   {cert} Certified
                 </div>
