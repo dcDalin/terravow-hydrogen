@@ -10,7 +10,7 @@ import type {Route} from './+types/($locale)._index';
 import {Button} from '~/components/ui/button';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{title: 'TerraVow | Home'}];
 };
 
 export async function loader(args: Route.LoaderArgs) {
