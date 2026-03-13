@@ -10,11 +10,26 @@ import TestimonialsSection from '~/components/Home/TestimonialsSection';
 import TrustSection from '~/components/Home/TrustSection';
 import ResultsSection from '~/components/Home/ResultsSection';
 import NewsletterSection from '~/components/Home/NewsletterSection';
+import ContactFormSection from '~/components/Home/ContactFormSection';
 import {motion} from 'framer-motion';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: 'TerraVow | Home'}];
 };
+
+export async function action({request}: Route.ActionArgs) {
+  const formData = await request.formData();
+  const name = formData.get('name');
+  const email = formData.get('email');
+  const phone = formData.get('phone');
+  const comment = formData.get('comment');
+
+  // TODO: Implement email sending or database storage
+  // For now, just log the data and return success
+  console.log('Contact form submission:', {name, email, phone, comment});
+
+  return {success: true};
+}
 
 export async function loader(args: Route.LoaderArgs) {
   // Start fetching non-critical data without blocking time to first byte
@@ -79,6 +94,16 @@ export default function Homepage({loaderData}: Route.ComponentProps) {
         transition={{duration: 0.6, ease: 'easeOut'}}
       >
         <FeaturedCollectionCard collection={loaderData.featuredCollection} />
+      </motion.div>
+
+      {/* Contact Form */}
+      <motion.div
+        initial={{opacity: 0, y: 20}}
+        whileInView={{opacity: 1, y: 0}}
+        viewport={{once: true, margin: '-100px'}}
+        transition={{duration: 0.6, ease: 'easeOut'}}
+      >
+        <ContactFormSection />
       </motion.div>
 
       {/* Social Proof - Build credibility */}
