@@ -82,7 +82,7 @@ export function ProductImage({image, images}: ProductImageProps) {
               variant="secondary"
               size="icon"
               onClick={goToPrevious}
-              className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 hover:cursor-pointer transition-opacity duration-300"
+              className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 active:!-translate-y-1/2"
               aria-label="Previous image"
             >
               <ChevronLeft className="size-5" />
@@ -91,7 +91,7 @@ export function ProductImage({image, images}: ProductImageProps) {
               variant="secondary"
               size="icon"
               onClick={goToNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 hover:cursor-pointer transition-opacity duration-300"
+              className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 active:!-translate-y-1/2"
               aria-label="Next image"
             >
               <ChevronRight className="size-5" />
@@ -109,7 +109,7 @@ export function ProductImage({image, images}: ProductImageProps) {
               type="button"
               onClick={() => setCurrentIndex(index)}
               className={cn(
-                'aspect-square overflow-hidden rounded-lg ring-1 transition-all',
+                'aspect-square overflow-hidden rounded-lg ring-1 transition-all cursor-pointer',
                 index === currentIndex
                   ? 'ring-2 ring-primary'
                   : 'ring-border hover:ring-foreground/20',
