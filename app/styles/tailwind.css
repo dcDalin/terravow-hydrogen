@@ -222,3 +222,149 @@
     box-shadow: inset 0 1px 2px oklch(0 0 0 / 0.05);
   }
 }
+
+/*---break---*/
+
+/* WYSIWYG Content Styles - For Shopify Product Descriptions */
+@layer components {
+  .wysiwyg {
+    @apply text-foreground/90 leading-relaxed;
+  }
+
+  /* Headings */
+  .wysiwyg h1 {
+    @apply text-3xl font-bold text-foreground mb-4 mt-8 first:mt-0 font-serif;
+  }
+
+  .wysiwyg h2 {
+    @apply text-2xl font-bold text-foreground mb-3 mt-6 first:mt-0 font-serif;
+  }
+
+  .wysiwyg h3 {
+    @apply text-xl font-semibold text-foreground mb-3 mt-5 first:mt-0 font-serif;
+  }
+
+  .wysiwyg h4 {
+    @apply text-lg font-semibold text-foreground mb-2 mt-4 first:mt-0;
+  }
+
+  .wysiwyg h5 {
+    @apply text-base font-semibold text-foreground mb-2 mt-4 first:mt-0;
+  }
+
+  .wysiwyg h6 {
+    @apply text-sm font-semibold text-foreground mb-2 mt-4 first:mt-0;
+  }
+
+  /* Paragraphs */
+  .wysiwyg p {
+    @apply mb-4 text-sm leading-7 text-muted-foreground;
+  }
+
+  .wysiwyg p:last-child {
+    @apply mb-0;
+  }
+
+  /* Lists */
+  .wysiwyg ul {
+    @apply list-disc list-inside mb-4 space-y-2 text-sm text-muted-foreground;
+  }
+
+  .wysiwyg ol {
+    @apply list-decimal list-inside mb-4 space-y-2 text-sm text-muted-foreground;
+  }
+
+  .wysiwyg ul ul,
+  .wysiwyg ol ul {
+    @apply list-disc ml-6 mt-2 mb-0;
+  }
+
+  .wysiwyg ul ol,
+  .wysiwyg ol ol {
+    @apply list-decimal ml-6 mt-2 mb-0;
+  }
+
+  .wysiwyg li {
+    @apply leading-7;
+  }
+
+  .wysiwyg li > p {
+    @apply inline;
+  }
+
+  /* Links */
+  .wysiwyg a {
+    @apply text-primary underline underline-offset-2 hover:text-primary/80 transition-colors;
+  }
+
+  /* Emphasis */
+  .wysiwyg strong {
+    @apply font-bold text-foreground;
+  }
+
+  .wysiwyg em {
+    @apply italic;
+  }
+
+  .wysiwyg u {
+    @apply underline underline-offset-2;
+  }
+
+  /* Blockquotes */
+  .wysiwyg blockquote {
+    @apply border-l-4 border-primary/30 pl-4 py-2 my-4 italic text-muted-foreground bg-muted/30 rounded-r;
+  }
+
+  .wysiwyg blockquote p {
+    @apply mb-0;
+  }
+
+  /* Code */
+  .wysiwyg code {
+    @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-foreground;
+  }
+
+  .wysiwyg pre {
+    @apply bg-muted p-4 rounded-lg my-4 overflow-x-auto;
+  }
+
+  .wysiwyg pre code {
+    @apply bg-transparent p-0;
+  }
+
+  /* Images */
+  .wysiwyg img {
+    @apply rounded-lg my-4 max-w-full h-auto;
+  }
+
+  /* Horizontal Rule */
+  .wysiwyg hr {
+    @apply my-6 border-t border-border;
+  }
+
+  /* Tables */
+  .wysiwyg table {
+    @apply w-full my-4 border-collapse;
+  }
+
+  .wysiwyg th {
+    @apply bg-muted p-3 text-left font-semibold text-foreground border border-border;
+  }
+
+  .wysiwyg td {
+    @apply p-3 border border-border text-muted-foreground;
+  }
+
+  .wysiwyg tr:nth-child(even) {
+    @apply bg-muted/30;
+  }
+
+  /* Divs and Spans - preserve spacing */
+  .wysiwyg > div {
+    @apply mb-4;
+  }
+
+  .wysiwyg > div:last-child {
+    @apply mb-0;
+  }
+}

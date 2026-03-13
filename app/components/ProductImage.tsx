@@ -4,6 +4,7 @@ import type {
   ProductFragment,
 } from 'storefrontapi.generated';
 import {Image} from '@shopify/hydrogen';
+import {motion, AnimatePresence} from 'framer-motion';
 import {Button} from '~/components/ui/button';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
 import {cn} from '~/lib/utils';
@@ -55,14 +56,24 @@ export function ProductImage({image, images}: ProductImageProps) {
     <div className="space-y-4">
       {/* Main Image with Navigation */}
       <div className="relative aspect-square overflow-hidden rounded-xl bg-card ring-1 ring-foreground/10 group">
-        <Image
-          alt={currentImage.altText || 'Product Image'}
-          aspectRatio="1/1"
-          data={currentImage}
-          key={currentImage.id}
-          className="w-full h-full object-cover"
-          sizes="(min-width: 45em) 50vw, 100vw"
-        />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentImage.id}
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+            transition={{duration: 0.3, ease: 'easeInOut'}}
+            className="w-full h-full"
+          >
+            <Image
+              alt={currentImage.altText || 'Product Image'}
+              aspectRatio="1/1"
+              data={currentImage}
+              className="w-full h-full object-cover"
+              sizes="(min-width: 45em) 50vw, 100vw"
+            />
+          </motion.div>
+        </AnimatePresence>
 
         {/* Navigation Arrows */}
         {hasMultipleImages && (
@@ -71,7 +82,7 @@ export function ProductImage({image, images}: ProductImageProps) {
               variant="secondary"
               size="icon"
               onClick={goToPrevious}
-              className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 hover:cursor-pointer transition-opacity"
+              className="absolute left-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 hover:cursor-pointer transition-opacity duration-300"
               aria-label="Previous image"
             >
               <ChevronLeft className="size-5" />
@@ -80,7 +91,7 @@ export function ProductImage({image, images}: ProductImageProps) {
               variant="secondary"
               size="icon"
               onClick={goToNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 hover:cursor-pointer transition-opacity"
+              className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 hover:cursor-pointer transition-opacity duration-300"
               aria-label="Next image"
             >
               <ChevronRight className="size-5" />
@@ -93,7 +104,7 @@ export function ProductImage({image, images}: ProductImageProps) {
       {hasMultipleImages && (
         <div className="grid grid-cols-4 gap-2">
           {allImages.map((img, index) => (
-            <button
+            <motion.button
               key={img.id}
               type="button"
               onClick={() => setCurrentIndex(index)}
@@ -104,6 +115,9 @@ export function ProductImage({image, images}: ProductImageProps) {
                   : 'ring-border hover:ring-foreground/20',
               )}
               aria-label={`View image ${index + 1}`}
+              whileHover={{scale: 1.05}}
+              whileTap={{scale: 0.95}}
+              transition={{duration: 0.2}}
             >
               <Image
                 alt={img.altText || `Product thumbnail ${index + 1}`}
@@ -112,7 +126,7 @@ export function ProductImage({image, images}: ProductImageProps) {
                 className="w-full h-full object-cover"
                 sizes="100px"
               />
-            </button>
+            </motion.button>
           ))}
         </div>
       )}

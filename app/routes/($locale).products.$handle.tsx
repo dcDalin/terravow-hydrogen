@@ -8,11 +8,13 @@ import {
   getAdjacentAndFirstAvailableVariants,
   useSelectedOptionInUrlParam,
 } from '@shopify/hydrogen';
+import {motion} from 'framer-motion';
 import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import {SafeHtml} from '~/components/SafeHtml';
 import {CustomerReview} from '~/components/CustomerReview';
+import {StickyAddToCart} from '~/components/StickyAddToCart';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -100,65 +102,98 @@ export default function Product() {
   const {title, descriptionHtml} = product;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-        {/* Product Image */}
-        <div className="sticky top-4 self-start">
-          <ProductImage
-            image={selectedVariant?.image}
-            images={product.images?.nodes || []}
-          />
-        </div>
-
-        {/* Product Details */}
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold font-primary text-foreground mb-2">
-              {title}
-            </h1>
-            <ProductPrice
-              price={selectedVariant?.price}
-              compareAtPrice={selectedVariant?.compareAtPrice}
+    <>
+      <div className="max-w-5xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+          {/* Product Image */}
+          <motion.div
+            className="lg:sticky lg:top-4 lg:self-start"
+            initial={{opacity: 0, y: 20}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.5, ease: 'easeOut'}}
+          >
+            <ProductImage
+              image={selectedVariant?.image}
+              images={product.images?.nodes || []}
             />
-          </div>
+          </motion.div>
 
-          <ProductForm
-            productOptions={productOptions}
-            selectedVariant={selectedVariant}
-          />
-
-          {descriptionHtml && (
-            <div className="pt-6 border-t border-border">
-              <h2 className="text-sm font-semibold tracking-wide uppercase text-foreground mb-4">
-                Description
-              </h2>
-              <SafeHtml
-                html={descriptionHtml}
-                className="prose prose-sm max-w-none text-muted-foreground"
+          {/* Product Details */}
+          <div className="space-y-6">
+            <motion.div
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5, delay: 0.1, ease: 'easeOut'}}
+            >
+              <h1 className="text-3xl md:text-4xl font-bold font-primary text-foreground mb-2">
+                {title}
+              </h1>
+              <ProductPrice
+                price={selectedVariant?.price}
+                compareAtPrice={selectedVariant?.compareAtPrice}
               />
-            </div>
-          )}
+            </motion.div>
 
-          {/* Customer Reviews Carousel */}
-          <CustomerReview productHandle={product.handle} />
+            <motion.div
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5, delay: 0.2, ease: 'easeOut'}}
+            >
+              <ProductForm
+                productOptions={productOptions}
+                selectedVariant={selectedVariant}
+              />
+            </motion.div>
+
+            {descriptionHtml && (
+              <motion.div
+                className="pt-6 border-t border-border"
+                initial={{opacity: 0, y: 20}}
+                whileInView={{opacity: 1, y: 0}}
+                viewport={{once: true, margin: '-50px'}}
+                transition={{duration: 0.5, ease: 'easeOut'}}
+              >
+                <h2 className="text-sm font-semibold tracking-wide uppercase text-foreground mb-4">
+                  Description
+                </h2>
+                <SafeHtml
+                  html={descriptionHtml}
+                  className="wysiwyg"
+                />
+              </motion.div>
+            )}
+
+            {/* Customer Reviews Carousel */}
+            <motion.div
+              initial={{opacity: 0, y: 20}}
+              whileInView={{opacity: 1, y: 0}}
+              viewport={{once: true, margin: '-50px'}}
+              transition={{duration: 0.5, ease: 'easeOut'}}
+            >
+              <CustomerReview productHandle={product.handle} />
+            </motion.div>
+          </div>
         </div>
+        <Analytics.ProductView
+          data={{
+            products: [
+              {
+                id: product.id,
+                title: product.title,
+                price: selectedVariant?.price.amount || '0',
+                vendor: product.vendor,
+                variantId: selectedVariant?.id || '',
+                variantTitle: selectedVariant?.title || '',
+                quantity: 1,
+              },
+            ],
+          }}
+        />
       </div>
-      <Analytics.ProductView
-        data={{
-          products: [
-            {
-              id: product.id,
-              title: product.title,
-              price: selectedVariant?.price.amount || '0',
-              vendor: product.vendor,
-              variantId: selectedVariant?.id || '',
-              variantTitle: selectedVariant?.title || '',
-              quantity: 1,
-            },
-          ],
-        }}
-      />
-    </div>
+
+      {/* Sticky Add to Cart Bar */}
+      <StickyAddToCart product={product} selectedVariant={selectedVariant} />
+    </>
   );
 }
 
