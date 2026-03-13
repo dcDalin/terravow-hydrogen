@@ -8,7 +8,7 @@ import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
 import {cn} from '~/lib/utils';
 import type {ProductFragment} from 'storefrontapi.generated';
-import {ShoppingBag} from 'lucide-react';
+import {AnimatedCartIcon} from './AnimatedCartIcon';
 
 export function ProductForm({
   productOptions,
@@ -122,7 +122,7 @@ export function ProductForm({
             : []
         }
       >
-        <ShoppingBag className="mr-2" />
+        <AnimatedCartIcon className="mr-2" />
         {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
       </AddToCartButton>
     </div>

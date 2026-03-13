@@ -3,7 +3,7 @@ import {motion, AnimatePresence} from 'framer-motion';
 import {Image, Money} from '@shopify/hydrogen';
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
-import {ShoppingBag} from 'lucide-react';
+import {AnimatedCartIcon} from './AnimatedCartIcon';
 import type {ProductFragment} from 'storefrontapi.generated';
 
 interface StickyAddToCartProps {
@@ -110,7 +110,7 @@ export function StickyAddToCart({
                 }
                 className="flex-shrink-0 h-11 px-6"
               >
-                <ShoppingBag className="mr-2" size={18} />
+                <AnimatedCartIcon className="mr-2" size={18} />
                 <span className="hidden sm:inline">
                   {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
                 </span>
