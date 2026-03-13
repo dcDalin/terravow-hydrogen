@@ -41,8 +41,7 @@ export function CustomerReview({productHandle}: CustomerReviewProps) {
 
   const paginate = (newDirection: number) => {
     const newIndex =
-      (currentIndex + newDirection + testimonials.length) %
-      testimonials.length;
+      (currentIndex + newDirection + testimonials.length) % testimonials.length;
     setDirection(newDirection);
     setCurrentIndex(newIndex);
   };
@@ -51,7 +50,7 @@ export function CustomerReview({productHandle}: CustomerReviewProps) {
   const showControls = testimonials.length > 1;
 
   return (
-    <div className="pt-6 border-t border-border">
+    <div className="pt-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-sm font-semibold tracking-wide uppercase text-foreground">
           Customer Reviews

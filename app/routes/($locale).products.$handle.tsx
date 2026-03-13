@@ -15,6 +15,7 @@ import {ProductForm} from '~/components/ProductForm';
 import {SafeHtml} from '~/components/SafeHtml';
 import {CustomerReview} from '~/components/CustomerReview';
 import {ProductFAQ} from '~/components/ProductFAQ';
+import {TrustBadges} from '~/components/TrustBadges';
 import {StickyAddToCart} from '~/components/StickyAddToCart';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
@@ -135,20 +136,8 @@ export default function Product() {
               />
             </motion.div>
 
-            <motion.div
-              initial={{opacity: 0, y: 20}}
-              animate={{opacity: 1, y: 0}}
-              transition={{duration: 0.5, delay: 0.2, ease: 'easeOut'}}
-            >
-              <ProductForm
-                productOptions={productOptions}
-                selectedVariant={selectedVariant}
-              />
-            </motion.div>
-
             {descriptionHtml && (
               <motion.div
-                className="pt-6 border-t border-border"
                 initial={{opacity: 0, y: 20}}
                 whileInView={{opacity: 1, y: 0}}
                 viewport={{once: true, margin: '-50px'}}
@@ -161,6 +150,25 @@ export default function Product() {
               </motion.div>
             )}
 
+            <motion.div
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5, delay: 0.2, ease: 'easeOut'}}
+            >
+              <ProductForm
+                productOptions={productOptions}
+                selectedVariant={selectedVariant}
+              />
+            </motion.div>
+
+            {/* Trust Badges */}
+            <motion.div
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5, delay: 0.3, ease: 'easeOut'}}
+            >
+              <TrustBadges />
+            </motion.div>
             {/* Customer Reviews Carousel */}
             <motion.div
               initial={{opacity: 0, y: 20}}
