@@ -52,7 +52,7 @@ async function loadCriticalData({context}: Route.LoaderArgs) {
   ]);
 
   return {
-    featuredCollection: collections.nodes[0],
+    featuredCollection: collections?.nodes?.[0] || null,
   };
 }
 
@@ -312,6 +312,10 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
         amount
         currencyCode
       }
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
     }
     featuredImage {
       id
@@ -319,6 +323,15 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
       altText
       width
       height
+    }
+    images(first: 5) {
+      nodes {
+        id
+        url
+        altText
+        width
+        height
+      }
     }
   }
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)

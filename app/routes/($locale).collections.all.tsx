@@ -51,11 +51,20 @@ export default function Collection() {
   const {products} = useLoaderData<typeof loader>();
 
   return (
-    <div className="collection">
-      <h1>Products</h1>
+    <div className="max-w-7xl mx-auto px-4 py-16">
+      {/* Section Heading */}
+      <div className="text-center mb-12">
+        <h2 className="text-sm tracking-[0.25em] uppercase text-primary mb-4 font-semibold">
+          Shop All
+        </h2>
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+          All Products
+        </h1>
+      </div>
+
       <PaginatedResourceSection<CollectionItemFragment>
         connection={products}
-        resourcesClassName="products-grid"
+        resourcesClassName="grid grid-cols-2 sm:grid-cols-4 gap-4"
       >
         {({node: product, index}) => (
           <ProductItem
@@ -84,6 +93,15 @@ const COLLECTION_ITEM_FRAGMENT = `#graphql
       url
       width
       height
+    }
+    images(first: 5) {
+      nodes {
+        id
+        url
+        altText
+        width
+        height
+      }
     }
     priceRange {
       minVariantPrice {

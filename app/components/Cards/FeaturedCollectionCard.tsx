@@ -90,8 +90,12 @@ function ProductCard({product}: ProductCardProps) {
 export default function FeaturedCollectionCard({
   collection,
 }: FeaturedCollectionCardProps) {
-  const products = collection.products?.nodes || [];
+  const products = collection?.products?.nodes || [];
   const hasProducts = products.length > 0;
+
+  if (!hasProducts) {
+    return null;
+  }
 
   return (
     <section className="max-w-5xl mx-auto px-4 py-16">
@@ -102,15 +106,13 @@ export default function FeaturedCollectionCard({
         </h2>
       </div>
 
-      {hasProducts && (
-        <div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {products.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+      <div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {products.slice(0, 4).map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
         </div>
-      )}
+      </div>
     </section>
   );
 }
