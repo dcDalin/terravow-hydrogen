@@ -14,6 +14,7 @@ import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import {SafeHtml} from '~/components/SafeHtml';
 import {CustomerReview} from '~/components/CustomerReview';
+import {ProductFAQ} from '~/components/ProductFAQ';
 import {StickyAddToCart} from '~/components/StickyAddToCart';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
@@ -171,6 +172,16 @@ export default function Product() {
               transition={{duration: 0.5, ease: 'easeOut'}}
             >
               <CustomerReview productHandle={product.handle} />
+            </motion.div>
+
+            {/* FAQ Section */}
+            <motion.div
+              initial={{opacity: 0, y: 20}}
+              whileInView={{opacity: 1, y: 0}}
+              viewport={{once: true, margin: '-50px'}}
+              transition={{duration: 0.5, ease: 'easeOut'}}
+            >
+              <ProductFAQ productHandle={product.handle} />
             </motion.div>
           </div>
         </div>
