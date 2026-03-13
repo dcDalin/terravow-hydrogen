@@ -53,107 +53,58 @@ const TestimonialCard = ({
   starRating = 4.3,
   review = "Absolutely divine. The texture is unlike anything I've ever tried — my skin has never felt more luminous. Worth every penny.",
 }: TestimonialCardProps) => {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <motion.div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       initial={{opacity: 0, y: 12}}
       animate={{opacity: 1, y: 0}}
       transition={{duration: 0.6, ease: 'easeOut'}}
     >
-      <motion.div
-        animate={{
-          y: hovered ? -4 : 0,
-          scale: hovered ? 1.01 : 1,
-        }}
-        transition={{
-          type: 'spring',
-          stiffness: 120,
-          damping: 18,
-        }}
+      <Card
+        className={cn(
+          'border relative overflow-hidden w-full p-4 rounded-xl cursor-default select-none',
+        )}
       >
-        <Card
-          className={cn(
-            'relative overflow-hidden w-full p-4 rounded-xl border border-border bg-card cursor-default select-none',
-          )}
-        >
-          {/* Top Accent Line */}
-          <motion.div
-            className="absolute top-0 left-[10%] right-[10%] h-px bg-linear-to-r from-transparent via-primary to-transparent opacity-40"
-            animate={{opacity: hovered ? 0.9 : 0.4}}
-            transition={{duration: 0.4}}
-          />
+        {/* Quote Icon */}
+        <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center mb-4">
+          <Quote size={16} className="text-primary-foreground fill-current" />
+        </div>
 
-          {/* Quote Icon */}
-          <motion.div
-            className="w-9 h-9 rounded-full bg-primary flex items-center justify-center mb-4"
-            animate={{
-              scale: hovered ? 1.05 : 1,
-              opacity: hovered ? 1 : 0.9,
-            }}
-            transition={{duration: 0.3}}
-          >
-            <Quote size={16} className="text-primary-foreground fill-current" />
-          </motion.div>
+        {/* Review Text */}
+        <p className="text-sm leading-relaxed text-foreground italic mb-4">
+          &ldquo;{review}&rdquo;
+        </p>
 
-          {/* Review Text */}
-          <motion.p
-            className="text-sm leading-relaxed text-foreground italic mb-4"
-            animate={{opacity: hovered ? 1 : 0.92}}
-            transition={{duration: 0.3}}
-          >
-            &ldquo;{review}&rdquo;
-          </motion.p>
+        {/* Divider */}
+        <div className="h-px bg-linear-to-r from-transparent via-border to-transparent mb-4" />
 
-          {/* Divider */}
-          <div className="h-px bg-linear-to-r from-transparent via-border to-transparent mb-4" />
-
-          {/* Author Info */}
-          <motion.div
-            className="flex items-center gap-3"
-            animate={{y: hovered ? -1 : 0}}
-            transition={{duration: 0.3}}
-          >
-            <div className="relative shrink-0">
-              <motion.div
-                className="w-12 h-12 rounded-full p-0.5 bg-linear-to-br from-primary to-primary/70"
-                animate={{scale: hovered ? 1.05 : 1}}
-                transition={{duration: 0.35}}
-              >
-                <img
-                  src={imageUrl}
-                  alt={name}
-                  className="w-full h-full rounded-full object-cover block"
-                />
-              </motion.div>
-
-              <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-card flex items-center justify-center">
-                <BadgeCheck size={8} className="text-white" />
-              </div>
+        {/* Author Info */}
+        <div className="flex items-center gap-3">
+          <div className="relative shrink-0">
+            <div className="w-12 h-12 rounded-full p-0.5 bg-linear-to-br from-primary to-primary/70">
+              <img
+                src={imageUrl}
+                alt={name}
+                className="w-full h-full rounded-full object-cover block"
+              />
             </div>
 
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-foreground tracking-wide truncate mb-1">
-                {name}
-              </p>
-              <StarRating rating={starRating} />
+            <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-card flex items-center justify-center">
+              <BadgeCheck size={8} className="text-white" />
             </div>
+          </div>
 
-            <span className="text-[0.6rem] tracking-widest uppercase text-muted-foreground self-end pb-0.5">
-              Verified
-            </span>
-          </motion.div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-foreground tracking-wide truncate mb-1">
+              {name}
+            </p>
+            <StarRating rating={starRating} />
+          </div>
 
-          {/* Bottom Accent */}
-          <motion.div
-            className="absolute bottom-0 left-[10%] right-[10%] h-px bg-linear-to-r from-transparent via-primary to-transparent opacity-40"
-            animate={{opacity: hovered ? 0.9 : 0.4}}
-            transition={{duration: 0.4}}
-          />
-        </Card>
-      </motion.div>
+          <span className="text-[0.6rem] tracking-widest uppercase text-muted-foreground self-end pb-0.5">
+            Verified
+          </span>
+        </div>
+      </Card>
     </motion.div>
   );
 };

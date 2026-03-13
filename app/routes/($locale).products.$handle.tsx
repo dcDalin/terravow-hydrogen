@@ -104,7 +104,7 @@ export default function Product() {
 
   return (
     <>
-      <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="max-w-5xl mx-auto px-4 pt-8 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Image */}
           <motion.div
@@ -157,10 +157,7 @@ export default function Product() {
                 <h2 className="text-sm font-semibold tracking-wide uppercase text-foreground mb-4">
                   Description
                 </h2>
-                <SafeHtml
-                  html={descriptionHtml}
-                  className="wysiwyg"
-                />
+                <SafeHtml html={descriptionHtml} className="wysiwyg" />
               </motion.div>
             )}
 
