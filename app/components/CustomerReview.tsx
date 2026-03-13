@@ -3,54 +3,11 @@ import {motion, AnimatePresence} from 'framer-motion';
 import TestimonialCard from './Cards/TestimonialCard';
 import {Button} from './ui/button';
 import {ChevronLeft, ChevronRight} from 'lucide-react';
-
-interface Testimonial {
-  imageUrl: string;
-  name: string;
-  starRating: number;
-  review: string;
-}
+import {testimonialsByProduct} from '~/data/testimonials';
 
 interface CustomerReviewProps {
   productHandle: string;
 }
-
-// Testimonial database organized by product handle
-const testimonialsByProduct: Record<string, Testimonial[]> = {
-  // Default testimonials for all products
-  default: [
-    {
-      imageUrl: 'https://i.pravatar.cc/150?img=47',
-      name: 'Sarah Mitchell',
-      starRating: 5.0,
-      review:
-        'This product exceeded all my expectations. The quality is outstanding and I have already recommended it to all my friends!',
-    },
-    {
-      imageUrl: 'https://i.pravatar.cc/150?img=32',
-      name: 'Emily Rodriguez',
-      starRating: 4.5,
-      review:
-        'Amazing results! I noticed a difference within the first week. Highly recommend to anyone looking for quality.',
-    },
-    {
-      imageUrl: 'https://i.pravatar.cc/150?img=65',
-      name: 'Jessica Chen',
-      starRating: 5.0,
-      review:
-        'Absolutely love this! The packaging is beautiful and the product itself is top-notch. Worth every penny.',
-    },
-  ],
-  // Example: specific testimonials for a specific product handle
-  // 'example-product-handle': [
-  //   {
-  //     imageUrl: 'https://i.pravatar.cc/150?img=12',
-  //     name: 'John Doe',
-  //     starRating: 5.0,
-  //     review: 'Product-specific testimonial here...',
-  //   },
-  // ],
-};
 
 export function CustomerReview({productHandle}: CustomerReviewProps) {
   // Get testimonials for this product, fallback to default
