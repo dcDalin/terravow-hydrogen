@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {useNavigation} from 'react-router';
-
+import {Loader2} from 'lucide-react';
 import {cx} from 'class-variance-authority';
 
 export const NavigationProgressBar = () => {
@@ -35,24 +35,32 @@ export const NavigationProgressBar = () => {
   }
 
   return (
-    <div
-      role="progressbar"
-      aria-label="Navigation progress"
-      aria-valuetext={active ? 'Loading' : undefined}
-      className="fixed inset-x-0 top-0 left-0 z-100 h-0.5 animate-pulse"
-    >
+    <>
       <div
-        ref={ref}
-        className={cx(
-          'from-secondary to-primary h-full rounded-e-sm bg-linear-to-r transition-all duration-500 ease-in-out',
-          navigation.state === 'idle' &&
-            animationComplete &&
-            'w-0 opacity-0 transition-none',
-          navigation.state === 'submitting' && 'w-4/12',
-          navigation.state === 'loading' && 'w-10/12',
-          navigation.state === 'idle' && !animationComplete && 'w-full',
-        )}
-      />
-    </div>
+        role="progressbar"
+        aria-label="Navigation progress"
+        aria-valuetext={active ? 'Loading' : undefined}
+        className="fixed inset-x-0 top-0 left-0 z-100 h-1 animate-pulse"
+      >
+        <div
+          ref={ref}
+          className={cx(
+            'from-secondary to-primary h-full rounded-e-sm bg-linear-to-r transition-all duration-500 ease-in-out',
+            navigation.state === 'idle' &&
+              animationComplete &&
+              'w-0 opacity-0 transition-none',
+            navigation.state === 'submitting' && 'w-4/12',
+            navigation.state === 'loading' && 'w-10/12',
+            navigation.state === 'idle' && !animationComplete && 'w-full',
+          )}
+        />
+      </div>
+
+      {active && (
+        <div className="fixed top-2 right-4 z-100">
+          <Loader2 className="size-4 text-primary animate-spin" />
+        </div>
+      )}
+    </>
   );
 };

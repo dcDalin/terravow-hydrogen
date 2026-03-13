@@ -149,12 +149,12 @@ function FooterContent({
                 </Link>
               </li>
               <li>
-                <a
-                  href="mailto:support@terravow.com"
+                <Link
+                  to="/pages/contact"
                   className="text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors"
                 >
                   Contact Us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

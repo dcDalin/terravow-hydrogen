@@ -1,10 +1,33 @@
 import {useLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import {ContactForm} from '~/components/ContactForm';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [{title: `TerraVow | ${data?.page.title ?? ''}`}];
 };
+
+export async function action({request}: Route.ActionArgs) {
+  const formData = await request.formData();
+  const name = formData.get('name');
+  const email = formData.get('email');
+  const phone = formData.get('phone');
+  const subject = formData.get('subject');
+  const message = formData.get('message');
+
+  // TODO: Implement email sending or CRM integration
+  // For now, just log the data
+  console.log('Contact form submission:', {
+    name,
+    email,
+    phone,
+    subject,
+    message,
+  });
+
+  // Return success response
+  return {success: true};
+}
 
 export async function loader(args: Route.LoaderArgs) {
   // Start fetching non-critical data without blocking time to first byte
@@ -57,6 +80,12 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 export default function Page() {
   const {page} = useLoaderData<typeof loader>();
 
+  // Render custom contact form for contact page
+  if (page.handle === 'contact') {
+    return <ContactForm />;
+  }
+
+  // Render default page content
   return (
     <div className="page">
       <header>
