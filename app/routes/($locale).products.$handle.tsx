@@ -18,6 +18,7 @@ import {ProductFAQ} from '~/components/ProductFAQ';
 import {TrustBadges} from '~/components/TrustBadges';
 import {KeyBenefits} from '~/components/KeyBenefits';
 import {StickyAddToCart} from '~/components/StickyAddToCart';
+import {ProductComparison} from '~/components/ProductComparison';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -209,12 +210,28 @@ export default function Product() {
         />
       </div>
 
-      {/* Key Benefits Grid */}
-      <section className="bg-secondary">
-        <div className="max-w-5xl mx-auto px-4">
-          <KeyBenefits />
-        </div>
-      </section>
+      <div>
+        {/* Key Benefits Grid */}
+        <section className="bg-secondary">
+          <div className="max-w-5xl mx-auto px-4">
+            <KeyBenefits />
+          </div>
+        </section>
+
+        <section className="bg-green-50 pb-16">
+          <div className="max-w-5xl mx-auto px-4">
+            {/* Comparison Table */}
+            <motion.div
+              initial={{opacity: 0, y: 20}}
+              whileInView={{opacity: 1, y: 0}}
+              viewport={{once: true, margin: '-50px'}}
+              transition={{duration: 0.5, ease: 'easeOut'}}
+            >
+              <ProductComparison productHandle={product.handle} />
+            </motion.div>
+          </div>
+        </section>
+      </div>
 
       {/* Sticky Add to Cart Bar */}
       <StickyAddToCart product={product} selectedVariant={selectedVariant} />
