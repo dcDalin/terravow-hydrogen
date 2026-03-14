@@ -16,6 +16,7 @@ import {SafeHtml} from '~/components/SafeHtml';
 import {CustomerReview} from '~/components/CustomerReview';
 import {ProductFAQ} from '~/components/ProductFAQ';
 import {TrustBadges} from '~/components/TrustBadges';
+import {KeyBenefits} from '~/components/KeyBenefits';
 import {StickyAddToCart} from '~/components/StickyAddToCart';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
@@ -169,6 +170,7 @@ export default function Product() {
             >
               <TrustBadges />
             </motion.div>
+
             {/* Customer Reviews Carousel */}
             <motion.div
               initial={{opacity: 0, y: 20}}
@@ -206,6 +208,13 @@ export default function Product() {
           }}
         />
       </div>
+
+      {/* Key Benefits Grid */}
+      <section className="bg-secondary">
+        <div className="max-w-5xl mx-auto px-4">
+          <KeyBenefits />
+        </div>
+      </section>
 
       {/* Sticky Add to Cart Bar */}
       <StickyAddToCart product={product} selectedVariant={selectedVariant} />
