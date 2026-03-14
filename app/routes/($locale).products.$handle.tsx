@@ -19,6 +19,7 @@ import {TrustBadges} from '~/components/TrustBadges';
 import {KeyBenefits} from '~/components/KeyBenefits';
 import {StickyAddToCart} from '~/components/StickyAddToCart';
 import {ProductComparison} from '~/components/ProductComparison';
+import {HowItWorksCarousel} from '~/components/HowItWorksCarousel';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -231,6 +232,9 @@ export default function Product() {
             </motion.div>
           </div>
         </section>
+
+        {/* How it works carousel */}
+        <HowItWorksCarousel />
       </div>
 
       {/* Sticky Add to Cart Bar */}
